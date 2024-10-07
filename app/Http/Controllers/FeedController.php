@@ -145,7 +145,6 @@ class FeedController extends Controller
 
 
         $statusFeeds = Feed::where('feeds.user_id', $request->user_id)->where('feeds.status', $request->status)->get();
-//        dd($statusFeeds->Count());
         $feeds = new Collection();
 
 
@@ -332,7 +331,6 @@ class FeedController extends Controller
 
         }
 
-//        dd($shareFeeds);
 
         return response()->json([
             'success' => true,
