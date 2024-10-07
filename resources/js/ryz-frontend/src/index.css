@@ -1,0 +1,640 @@
+body {
+    font-family: 'Proxima Nova', Georgia, sans-serif;
+    /*background: #222329;*/
+    padding: 0;
+    margin-top: 0;
+    /*background: white;*/
+
+}
+
+* {
+    box-sizing: border-box;
+}
+
+a, a:visited, a:active, a:hover {
+    text-decoration: none;
+    color: white;
+}
+
+.my-masonry-grid {
+    display: -webkit-box; /* Not needed if autoprefixing */
+    display: -ms-flexbox; /* Not needed if autoprefixing */
+    display: flex;
+    margin-left: -5px; /* gutter size offset */
+    width: auto;
+}
+
+.my-masonry-grid_column {
+    padding-left: 5px; /* gutter size */
+    background-clip: padding-box;
+}
+
+/* Style your items */
+.my-masonry-grid_column > div { /* change div to reference your elements you put in <Masonry> */
+    /*background: black;*/
+    margin-bottom: 5px;
+}
+
+.thumb {
+    width: 100%;
+    max-width: 100%;
+    border-radius: 0.3rem;
+    border: 1px solid #2f2f2f;
+    overflow: hidden;
+    /*margin-bottom: 10px;*/
+    /*position: relative;*/
+
+}
+
+.thumb img {
+    /*position: absolute;*/
+    /*top:0;*/
+    /*left:0;*/
+    width: 100%;
+}
+
+.profileIcon {
+    width: 22px;
+    height: 22px;
+}
+
+
+[class$="singleValue"] .profile-picture .profile-image,
+[class$="multiValue"] .profile-picture .profileImage {
+    width: 22px;
+    height: 22px;
+}
+
+[class$="singleValue"] .profile-picture .profile-image img,
+[class$="multiValue"] .profile-picture .profileImage img {
+    min-width: 22px;
+}
+
+.profileIcon > img {
+    width: 100%;
+    display: block;
+}
+
+.flex-username .profile-picture {
+    display: flex;
+}
+
+.flex-username .user {
+    margin-left: 7px;
+    padding-top: 3px;
+    font-size: 12px;
+    color: black;
+}
+
+[class$="singleValue"] .flex-username {
+    background: white;
+}
+
+[class$="singleValue"] .profile-picture .profileIcon,
+[class$="singleValue"] .profile-picture .profileImage {
+    color: #fff;
+    width: 22px;
+    border-radius: 4px;
+}
+
+[class$="singleValue"],
+[class$="multiValue"] svg {
+    fill: black;
+}
+
+[class$="singleValue"],
+[class$="multiValue"] {
+    background: white;
+    border-radius: 4px !important;
+}
+
+[class$="MenuList"] {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+[class$="MenuList"] [class$="option"]:nth-child(odd) {
+    width: 60%;
+}
+
+[class$="MenuList"] [class$="option"]:nth-child(even) {
+    width: 40%;
+}
+
+.flex-username .user span {
+    font-weight: 900;
+}
+
+.light .button {
+    background: #fff;
+    color: #000;
+
+
+}
+
+.dark .button {
+    background: #1C8FAA;
+    color: #000;
+}
+
+.button {
+    /*background: #1C8FAA;*/
+    font-size: 12px;
+    width: 83px;
+    height: 32px;
+    /* padding: 10px; */
+    display: flex;
+    border-radius: 2px;
+    margin: 15px 0 0 0;
+}
+
+.button .label {
+    font-size: 14px;
+    padding: 9px 6px 6px 16px;
+    /* margin-right: 4px; */
+    color: black;
+    font-weight: bold;
+}
+
+.button > img {
+    width: 24px;
+    height: 20px;
+    padding-top: 6px;
+}
+
+.send-button img {
+    height: 27px;
+
+}
+
+.comment-item .profileIcon,
+.menu .profileIcon {
+    width: 35px;
+    height: 35px;
+    border-radius: 4px;
+}
+
+.menu .user {
+    margin-left: 14px;
+    padding-top: 9px;
+    font-size: 13px;
+}
+
+.select-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    /*background:green;*/
+    opacity: 0;
+    z-index: 1;
+    color: white;
+}
+
+.select-overlay {
+    opacity: 1;
+}
+
+.following-container {
+    width: 100%;
+
+}
+
+.following-scroll {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    display: flex;
+    height: 75px;
+
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.following-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.following-scroll .following-user {
+    padding: .25rem;
+    width: 60px;
+
+    text-align: center;
+}
+
+.following-scroll .profile-picture .profileIcon {
+    width: 50px;
+    height: 50px;
+    padding: 0.35rem;
+    margin-right: .7rem;
+    border-radius: 0.25rem;
+    border: 1px solid white;
+
+}
+
+.following-scroll .profile-picture .profileImage {
+    width: 50px;
+    height: 50px;
+    /*padding: 0.35rem;*/
+    /*margin-right:.7rem;*/
+    border-radius: 0.25rem;
+    overflow: hidden;
+    border: 1px solid white;
+
+}
+
+.profile-picture .profileImage {
+    color: #fff;
+    width: 35px;
+    border-radius: 4px;
+}
+
+.profile-picture .profileImage img {
+    color: #fff;
+    width: 100%;
+    border-radius: 4px;
+    min-width: 35px;
+}
+
+.following-scroll .username {
+    font-size: 12px;
+    color: white;
+    text-overflow: ellipsis;
+    height: 16px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.follow-placeholder .image-container {
+    width: 60px;
+    height: 50px;
+    position: relative;
+    top: -1px;
+    padding: 0.3rem 0.35rem 0 0.35rem;
+
+    /*margin-right: 0.7rem;x*/
+
+
+}
+
+.follow-placeholder .image-container img {
+    width: 95%;
+    display: block;
+}
+
+.follow-placeholder {
+    position: relative;
+    font-size: 12px;
+    color: white;
+}
+
+.follow-placeholder .placeholder-leyend {
+    position: absolute;
+    bottom: 9px;
+    font-size: 11px;
+    text-align: center;
+    left: 0px;
+    width: 100%;
+}
+
+.separator {
+    margin-bottom: 0.7rem;
+    border-bottom: 1px solid #585858;
+}
+
+.messages .button {
+    background: #1C8FAA;
+    font-size: 12px;
+    width: 83px;
+    height: 32px;
+    /* padding: 10px; */
+    display: flex;
+    border-radius: 2px;
+    justify-content: center;
+    align-items: center;
+}
+
+.messages .button .label {
+    padding: 0;
+}
+
+.messages {
+    display: flex;
+    flex-direction: column
+
+}
+
+.messages .messages-container {
+    height: calc(100vh - 85px);
+    width: 100%;
+    max-height: 71vh;
+    overflow-y: scroll;
+
+}
+
+.send-box-container {
+    height: 60px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    padding: 8px;
+    background: #222329;
+}
+
+.send-box-container input {
+    border-radius: 4px;
+    margin-left: 0.25rem;
+    width: 80%;
+    font-size: 14px;
+    height: 40px;
+    background: transparent;
+    border: 1px solid #919191;
+    color: #fff;
+    padding: 0 0.5rem;
+}
+
+.send-box-container .profileImage {
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    margin-right: .25rem;
+}
+
+.send-box-container .profileIcon {
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    margin-right: .25rem;
+}
+
+.send-box-container input:focus {
+    outline: 1px;
+    outline-color: #fff;
+}
+
+.comment-item {
+
+    display: flex;
+    align-items: center;
+
+}
+
+.comment-item .comment-content {
+    display: flex;
+    align-items: center;
+}
+
+.comment-item .comment-body {
+    background: #3A3848;
+    color: white;
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+    margin: 0.5rem .5rem 0.5rem .5rem;
+
+}
+
+.comment-item .comment-body span {
+    font-weight: bold;
+    color: white;
+}
+
+.comment-item .comment-body {
+    color: #9B9B9B;
+}
+
+.comment-item .comment-body small {
+    margin-left: .3rem;
+    font-size: 9px;
+    color: #9B9B9B;
+
+}
+
+.light .comment-item .comment-body {
+    background: #C3C3C3;
+    color: #090814;
+}
+
+.light .comment-item .comment-body span {
+    font-weight: bold;
+    color: #090814;
+}
+
+.light .comment-item .comment-body small {
+    color: #090814;
+}
+
+.comment-item .comment-body .comment-body-inner {
+    padding: 0.5rem;
+    font-size: 12px;
+}
+
+.comment-item .profileIcon {
+
+}
+
+.message-send-button {
+    width: 8%;
+}
+
+.message-send-button svg {
+
+}
+
+.message-send-button img {
+    width: 70%;
+    display: block;
+    position: relative;
+    top: -5px;
+}
+
+.messages .messages-header .profile-picture {
+    margin-right: 10px;
+
+}
+
+.messages-header {
+    display: flex;
+    height: 50px;
+    flex-direction: row;
+    border-bottom: 1px solid #3f3f3f;
+    /*padding-left: 55px;*/
+}
+
+.messages-header main {
+    display: flex;
+    flex-direction: column;
+}
+
+.messages-header main span:nth-child(1) {
+    font-weight: bold;
+    color: white;
+}
+
+.messages-header main span:nth-child(2) {
+    font-size: 12px;
+    color: white;
+}
+
+.back-arrow-container {
+    width: 45px;
+    margin-left: -10px;
+    margin-right: 10px;
+
+}
+
+.back-arrow-container img {
+    width: 100%;
+}
+
+.messages-header .profileIcon {
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+}
+
+.no-messages-container {
+    width: 100%;
+    font-size: 14px;
+    color: #878787;
+    display: flex;
+    justify-content: center;
+    height: calc(100vh - 85px);
+    align-items: center;
+
+
+}
+
+.search .tags-container {
+    display: flex;
+    overflow-x: scroll;
+    padding: 0.5rem 0 0.5rem 0;
+}
+
+
+.search .tag {
+    background: #3A3848;
+    padding: 4px 6px;
+    margin-right: 0.5rem;
+    border-radius: 4px;
+    color: white;
+
+
+}
+
+.light .search .tag {
+    background: #090814;
+    color: white;
+}
+
+.search .tag.selected {
+    background: #1C8FAA;
+}
+
+.light .tag.selected {
+    background: white;
+    color: black;
+}
+
+.search [class$="NoOptionsMessage"] {
+    display: none;
+}
+
+.search [class$="MenuList"]:has([class$="NoOptionsMessage"]) {
+    display: none;
+
+
+}
+
+
+.search [class$="Input"] {
+    margin-left: 30px;
+}
+
+.search-users-container {
+    position: relative;
+}
+
+.search .search-icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 36px;
+    height: 36px;
+}
+
+.search .search-icon img {
+    width: 100%;
+    opacity: .5;
+}
+
+.select-control-container {
+    display: flex;
+}
+
+.select-control-container > div {
+    width: 100%;
+}
+
+
+.select-control-container .search-button {
+    width: 20%;
+    color: #1C8FAA;
+    padding: 0.5rem 0.5rem;
+}
+
+.dark .select-control-container .search-button {
+    color: #1C8FAA;
+
+}
+
+.light .select-control-container .search-button {
+    color: #090814;
+}
+
+.no-results {
+    width: 100%;
+    color: white;
+    opacity: .5;
+}
+
+.posts .buttons-container {
+    display: flex;
+}
+
+.posts .button.send-button {
+    width: 120px;
+    margin-right: 10px;
+}
+
+.cancel-button {
+    background: transparent;
+    /*border-color: #ADAEB0;*/
+    border: 1px solid #ADAEB0;
+    color: #ADAEB0;
+
+}
+
+.cancel-button .label {
+    color: #ADAEB0;
+
+}
+
+.light .cancel-button {
+    /*border-color: #090814;*/
+    border: 1px solid #090814;
+}
+
+.light .cancel-button .label {
+    color: #090814;
+}
+
+.light .message-button{
+    background: #FFFFFF;
+    box-shadow: 0px 3px 6px #00000029;
+    border-radius: 4px;
+}

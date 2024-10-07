@@ -1,0 +1,4712 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "version": "1.0",
+        "title": "Socialyz"
+    },
+    "servers": [
+        {
+            "url": "http://127.0.0.1/api/v1"
+        },
+        {
+            "url": "http://socialyz.com/api"
+        }
+    ],
+    "paths": {
+        "/users/login": {
+            "post": {
+                "summary": "login a user with credentials",
+                "operationId": "loginUser",
+                "tags": [
+                    "login"
+                ],
+                "requestBody": {
+                    "description": "User to add to system",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Login"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login a user with credentials",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Login"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+        },
+        "/users/logout": {
+            "get": {
+                "summary": "logout a user",
+                "operationId": "logoutUser",
+                "tags": [
+                    "login"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Logout a user",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Success"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+        },
+        "/users": {
+            "get": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Returns list of users based on limit and offset",
+                "operationId": "listUser",
+                "tags": [
+                    "user"
+                ],
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/offsetParam"
+                    },
+                    {
+                        "$ref": "#/components/parameters/limitParam"
+                    },
+                    {
+                        "in": "query",
+                        "name": "type",
+                        "required": true,
+                        "description": "Type of user to be retrived.",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "all",
+                                "following"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of users",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Users"
+                                },
+                                "example": [
+                                    {
+                                        "id": 10,
+                                        "name": "tester",
+                                        "firstname": "Tester",
+                                        "lastname": "Tester",
+                                        "password": "testtester",
+                                        "email": "test@tester.com",
+                                        "img": "profile.jpg",
+                                        "color": "#fff000"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/register": {
+            "post": {
+                "summary": "register a single user",
+                "operationId": "registerUser",
+                "tags": [
+                    "user"
+                ],
+                "requestBody": {
+                    "description": "User to add to system",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Registered a single user",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                },
+                                "examples": {
+                                    "Tester": {
+                                        "value": {
+                                            "id": 10,
+                                            "name": "tester",
+                                            "firstname": "Tester",
+                                            "lastname": "Tester",
+                                            "password": "testtester",
+                                            "email": "test@tester.com",
+                                            "img": "profile.jpg",
+                                            "color": "#fff000"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+        },
+        "/users/{id}": {
+            "get": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Returns details about a particular user",
+                "operationId": "getUser",
+                "tags": [
+                    "user"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the user",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details about a user by ID",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                },
+                                "examples": {
+                                    "Tester": {
+                                        "value": {
+                                            "id": 10,
+                                            "name": "tester",
+                                            "firstname": "Tester",
+                                            "lastname": "Tester",
+                                            "password": "testtester",
+                                            "email": "test@tester.com",
+                                            "img": "profile.jpg",
+                                            "color": "#fff000"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "update detail about a single user",
+                "operationId": "updateUser",
+                "tags": [
+                    "user"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the user",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "User to add to system",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Updated user detail",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                },
+                                "examples": {
+                                    "Tester": {
+                                        "value": {
+                                            "id": 10,
+                                            "name": "tester",
+                                            "firstname": "Tester",
+                                            "lastname": "Tester",
+                                            "password": "testtester",
+                                            "email": "test@tester.com",
+                                            "img": "profile.jpg",
+                                            "color": "#fff000"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Delete a single user",
+                "operationId": "deleteUser",
+                "tags": [
+                    "user"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the user",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User successfully deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Success"
+                                },
+                                "example": {
+                                    "code": 200,
+                                    "message": "user successfully deleted"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{id}/image/{image_id}": {
+            "post": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "add Image to particular user",
+                "operationId": "addImageToUser",
+                "tags": [
+                    "user"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the user",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "image_id",
+                        "in": "path",
+                        "description": "ID of the image",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details about a user by ID",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                },
+                                "examples": {
+                                    "Tester": {
+                                        "value": {
+                                            "id": 10,
+                                            "name": "tester",
+                                            "firstname": "Tester",
+                                            "lastname": "Tester",
+                                            "password": "testtester",
+                                            "email": "test@tester.com",
+                                            "img": "profile.jpg",
+                                            "color": "#fff000"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{id}/images": {
+            "get": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Returns images from particular user",
+                "operationId": "getUserImages",
+                "tags": [
+                    "user"
+                ],
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/offsetParam"
+                    },
+                    {
+                        "$ref": "#/components/parameters/limitParam"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the user",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details about a user by ID",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                },
+                                "examples": {
+                                    "Tester": {
+                                        "value": {
+                                            "id": 10,
+                                            "name": "tester",
+                                            "firstname": "Tester",
+                                            "lastname": "Tester",
+                                            "password": "testtester",
+                                            "email": "test@tester.com",
+                                            "img": "profile.jpg",
+                                            "color": "#fff000"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{id}/video/{video_id}": {
+            "post": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "add Video to particular user",
+                "operationId": "addVideoToUser",
+                "tags": [
+                    "user"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the user",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "video_id",
+                        "in": "path",
+                        "description": "ID of the video",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details about a user by ID",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                },
+                                "examples": {
+                                    "Tester": {
+                                        "value": {
+                                            "id": 10,
+                                            "name": "tester",
+                                            "firstname": "Tester",
+                                            "lastname": "Tester",
+                                            "password": "testtester",
+                                            "email": "test@tester.com",
+                                            "img": "profile.jpg",
+                                            "color": "#fff000"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{id}/videos": {
+            "get": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Returns videos from particular user",
+                "operationId": "getUserVideos",
+                "tags": [
+                    "user"
+                ],
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/offsetParam"
+                    },
+                    {
+                        "$ref": "#/components/parameters/limitParam"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the user",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details about a user by ID",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                },
+                                "examples": {
+                                    "Tester": {
+                                        "value": {
+                                            "id": 10,
+                                            "name": "tester",
+                                            "firstname": "Tester",
+                                            "lastname": "Tester",
+                                            "password": "testtester",
+                                            "email": "test@tester.com",
+                                            "img": "profile.jpg",
+                                            "color": "#fff000"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{id}/posts": {
+            "get": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Returns posts from particular user",
+                "operationId": "getUserPosts",
+                "tags": [
+                    "user"
+                ],
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/offsetParam"
+                    },
+                    {
+                        "$ref": "#/components/parameters/limitParam"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the user",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details about a user by ID",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                },
+                                "examples": {
+                                    "Tester": {
+                                        "value": {
+                                            "id": 10,
+                                            "name": "tester",
+                                            "firstname": "Tester",
+                                            "lastname": "Tester",
+                                            "password": "testtester",
+                                            "email": "test@tester.com",
+                                            "img": "profile.jpg",
+                                            "color": "#fff000"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{id}/followins": {
+            "get": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Returns followins from particular user",
+                "operationId": "getUserRelations",
+                "tags": [
+                    "user"
+                ],
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/offsetParam"
+                    },
+                    {
+                        "$ref": "#/components/parameters/limitParam"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the user",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details about a user by ID",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                },
+                                "examples": {
+                                    "Tester": {
+                                        "value": {
+                                            "id": 10,
+                                            "name": "tester",
+                                            "firstname": "Tester",
+                                            "lastname": "Tester",
+                                            "password": "testtester",
+                                            "email": "test@tester.com",
+                                            "img": "profile.jpg",
+                                            "color": "#fff000"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{id}/followers": {
+            "get": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Returns followers from particular user",
+                "operationId": "getUserRelations",
+                "tags": [
+                    "user"
+                ],
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/offsetParam"
+                    },
+                    {
+                        "$ref": "#/components/parameters/limitParam"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the user",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details about a user by ID",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                },
+                                "examples": {
+                                    "Tester": {
+                                        "value": {
+                                            "id": 10,
+                                            "name": "tester",
+                                            "firstname": "Tester",
+                                            "lastname": "Tester",
+                                            "password": "testtester",
+                                            "email": "test@tester.com",
+                                            "img": "profile.jpg",
+                                            "color": "#fff000"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{id}/feeds": {
+            "get": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Returns feeds from particular user",
+                "operationId": "getUserFeeds",
+                "tags": [
+                    "user"
+                ],
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/offsetParam"
+                    },
+                    {
+                        "$ref": "#/components/parameters/limitParam"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the user",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details about a user by ID",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                },
+                                "examples": {
+                                    "Tester": {
+                                        "value": {
+                                            "id": 10,
+                                            "name": "tester",
+                                            "firstname": "Tester",
+                                            "lastname": "Tester",
+                                            "password": "testtester",
+                                            "email": "test@tester.com",
+                                            "img": "profile.jpg",
+                                            "color": "#fff000"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{id}/feed/{feed_id}/{status}": {
+            "put": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Change a status feed",
+                "operationId": "changeUserStatusFeed",
+                "tags": [
+                    "user"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the feed",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "feed_id",
+                        "in": "path",
+                        "description": "ID of the feed",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "path",
+                        "description": "status of the feed",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "unread",
+                                "received",
+                                "read"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Feed successfully updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Success"
+                                },
+                                "example": {
+                                    "code": 200,
+                                    "message": "feed successfully updated"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{id}/likes": {
+            "get": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Returns likes from particular user",
+                "operationId": "getUserLikes",
+                "tags": [
+                    "user"
+                ],
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/offsetParam"
+                    },
+                    {
+                        "$ref": "#/components/parameters/limitParam"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the user",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details about a user by ID",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                },
+                                "examples": {
+                                    "Tester": {
+                                        "value": {
+                                            "id": 10,
+                                            "name": "tester",
+                                            "firstname": "Tester",
+                                            "lastname": "Tester",
+                                            "password": "testtester",
+                                            "email": "test@tester.com",
+                                            "img": "profile.jpg",
+                                            "color": "#fff000"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/posts": {
+            "post": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Create a new post",
+                "operationId": "createPost",
+                "tags": [
+                    "post"
+                ],
+                "requestBody": {
+                    "description": "Add Post to system",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Post"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Post Successfully Added",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Success"
+                                },
+                                "example": {
+                                    "code": 201,
+                                    "message": "post successfully created"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Returns list of posts based on limit and offset",
+                "operationId": "listPost",
+                "tags": [
+                    "post"
+                ],
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/offsetParam"
+                    },
+                    {
+                        "$ref": "#/components/parameters/limitParam"
+                    },
+                    {
+                        "in": "query",
+                        "name": "type",
+                        "required": true,
+                        "description": "type of posts to be retrieved.",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "all",
+                                "following",
+                                "user"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of post",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetPosts"
+                                },
+                                "example": [
+                                    {
+                                        "id": 13,
+                                        "type": "Image",
+                                        "owner": {
+                                            "id": 10,
+                                            "name": "tester",
+                                            "firstname": "Tester",
+                                            "lastname": "Tester",
+                                            "image": "profile.jpg",
+                                            "color": "#fff000"
+                                        },
+                                        "created_at": "2021-08-14T21:03:30.000000Z",
+                                        "content": "I am a example description",
+                                        "like_count": 9,
+                                        "comment_count": 12,
+                                        "images": [
+                                            {
+                                                "id": 1,
+                                                "type": "default",
+                                                "file_url": "default.jpg"
+                                            },
+                                            {
+                                                "id": 1,
+                                                "type": "alpha",
+                                                "file_url": "alpha.jpg"
+                                            }
+                                        ],
+                                        "video": "video.mp4"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/posts/{id}": {
+            "get": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Returns post detail",
+                "operationId": "getPost",
+                "tags": [
+                    "post"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details about a post by ID",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetPost"
+                                },
+                                "example": {
+                                    "summary": "Example of post",
+                                    "value": {
+                                        "id": 13,
+                                        "owner": {
+                                            "id": 10,
+                                            "name": "tester",
+                                            "firstname": "Tester",
+                                            "lastname": "Tester",
+                                            "image": "profile.jpg",
+                                            "color": "#fff000"
+                                        },
+                                        "created_at": "2021-08-14T21:03:30.000000Z",
+                                        "content": "Lorem ipsum ...",
+                                        "like_count": 9,
+                                        "comment_count": 12,
+                                        "images": [
+                                            {
+                                                "id": 1,
+                                                "type": "default",
+                                                "file_url": "default.jpg"
+                                            },
+                                            {
+                                                "id": 1,
+                                                "type": "alpha",
+                                                "file_url": "alpha.jpg"
+                                            }
+                                        ],
+                                        "video": "video.mp4"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Delete a single post",
+                "operationId": "deletePost",
+                "tags": [
+                    "post"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the post",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Post successfully deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Success"
+                                },
+                                "example": {
+                                    "code": 200,
+                                    "message": "post successfully deleted"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/posts/{id}/image/{image_id}": {
+            "post": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Add image to Post",
+                "operationId": "addImageToPost",
+                "tags": [
+                    "post"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "image_id",
+                        "in": "path",
+                        "description": "ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details about a post by ID",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Post"
+                                },
+                                "example": {
+                                    "summary": "Example of post",
+                                    "value": {
+                                        "id": 13,
+                                        "owner": {
+                                            "id": 10,
+                                            "name": "tester",
+                                            "firstname": "Tester",
+                                            "lastname": "Tester",
+                                            "image": "profile.jpg",
+                                            "color": "#fff000"
+                                        },
+                                        "created_at": "2021-08-14T21:03:30.000000Z",
+                                        "content": "Lorem ipsum ...",
+                                        "like_count": 9,
+                                        "comment_count": 12,
+                                        "images": [
+                                            {
+                                                "id": 1,
+                                                "type": "default",
+                                                "file_url": "default.jpg"
+                                            },
+                                            {
+                                                "id": 1,
+                                                "type": "alpha",
+                                                "file_url": "alpha.jpg"
+                                            }
+                                        ],
+                                        "video": "video.mp4"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/posts/{id}/video/{video_id}": {
+            "post": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Add video to Post",
+                "operationId": "addVideoToPost",
+                "tags": [
+                    "post"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "video_id",
+                        "in": "path",
+                        "description": "ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details about a post by ID",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Post"
+                                },
+                                "example": {
+                                    "summary": "Example of post",
+                                    "value": {
+                                        "id": 13,
+                                        "owner": {
+                                            "id": 10,
+                                            "name": "tester",
+                                            "firstname": "Tester",
+                                            "lastname": "Tester",
+                                            "image": "profile.jpg",
+                                            "color": "#fff000"
+                                        },
+                                        "created_at": "2021-08-14T21:03:30.000000Z",
+                                        "content": "Lorem ipsum ...",
+                                        "like_count": 9,
+                                        "comment_count": 12,
+                                        "images": [
+                                            {
+                                                "id": 1,
+                                                "type": "default",
+                                                "file_url": "default.jpg"
+                                            },
+                                            {
+                                                "id": 1,
+                                                "type": "alpha",
+                                                "file_url": "alpha.jpg"
+                                            }
+                                        ],
+                                        "video": "video.mp4"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/posts/{id}/thumb/{thumb_id}": {
+            "post": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Add thumb to Post",
+                "operationId": "addThumbToPost",
+                "tags": [
+                    "post"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "thumb_id",
+                        "in": "path",
+                        "description": "ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details about a post by ID",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Post"
+                                },
+                                "example": {
+                                    "summary": "Example of post",
+                                    "value": {
+                                        "id": 13,
+                                        "owner": {
+                                            "id": 10,
+                                            "name": "tester",
+                                            "firstname": "Tester",
+                                            "lastname": "Tester",
+                                            "image": "profile.jpg",
+                                            "color": "#fff000"
+                                        },
+                                        "created_at": "2021-08-14T21:03:30.000000Z",
+                                        "content": "Lorem ipsum ...",
+                                        "like_count": 9,
+                                        "comment_count": 12,
+                                        "images": [
+                                            {
+                                                "id": 1,
+                                                "type": "default",
+                                                "file_url": "default.jpg"
+                                            },
+                                            {
+                                                "id": 1,
+                                                "type": "alpha",
+                                                "file_url": "alpha.jpg"
+                                            }
+                                        ],
+                                        "thumb": "thumb1.jpg"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/comments": {
+            "post": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Create a comment and attach to post",
+                "operationId": "createComment",
+                "tags": [
+                    "comment"
+                ],
+                "requestBody": {
+                    "description": "Add Post to system",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Comment"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Comment Successfuly added",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Success"
+                                },
+                                "example": {
+                                    "code": 201,
+                                    "message": "comment Successfuly Added"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "get comments of a post",
+                "operationId": "getComment",
+                "tags": [
+                    "comment"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "post_id",
+                        "required": true,
+                        "description": "Type of user to be retrived.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List comment for a post",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetComments"
+                                },
+                                "example": [
+                                    {
+                                        "id": 23,
+                                        "post": 32,
+                                        "owner": 10,
+                                        "body": "example comment 1",
+                                        "created_at": "2021-08-14T21:03:30.000000Z"
+                                    },
+                                    {
+                                        "id": 24,
+                                        "post": 32,
+                                        "owner": 21,
+                                        "body": "example comment 2",
+                                        "created_at": "2021-08-14T21:03:30.000000Z"
+                                    },
+                                    {
+                                        "id": 25,
+                                        "post": 32,
+                                        "owner": 14,
+                                        "body": "example comment 3",
+                                        "created_at": "2021-08-14T21:03:30.000000Z"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/comments/{id}": {
+            "delete": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Delete a single comment",
+                "operationId": "deleteComment",
+                "tags": [
+                    "comment"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the comment",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Comment Successfuly deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Success"
+                                },
+                                "example": {
+                                    "code": 200,
+                                    "message": "comment Successfuly Deleted"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Update a comment",
+                "operationId": "updateComment",
+                "tags": [
+                    "comment"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the comment",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Add Post",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Comment"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Comment after being updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Comment"
+                                },
+                                "example": {
+                                    "id": 23,
+                                    "post": 32,
+                                    "owner": 10,
+                                    "body": "updated comment",
+                                    "created_at": "2021-08-14T21:03:30.000000Z"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/likes": {
+            "post": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Like a post",
+                "operationId": "like",
+                "tags": [
+                    "like"
+                ],
+                "requestBody": {
+                    "description": "Add Like to post",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Like"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Post liked",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Success"
+                                },
+                                "example": {
+                                    "code": 201,
+                                    "message": "Post successfully liked"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "get likes of a post",
+                "operationId": "getLike",
+                "tags": [
+                    "like"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "post_id",
+                        "required": true,
+                        "description": "id of post whose likes need to be retrieved",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List user that likes post",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetLikes"
+                                },
+                                "example": [
+                                    {
+                                        "id": 10,
+                                        "post": 25,
+                                        "owner": {
+                                            "id": 10,
+                                            "name": "tester",
+                                            "firstname": "Tester",
+                                            "lastname": "Tester",
+                                            "image": "profile.jpg",
+                                            "color": "#fff000"
+                                        },
+                                        "created_at": "2021-08-14T21:03:30.000000Z"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Unlike a post",
+                "operationId": "unlike",
+                "tags": [
+                    "like"
+                ],
+                "parameters": [
+                    {
+                        "name": "post_id",
+                        "in": "query",
+                        "description": "ID of post",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "query",
+                        "description": "ID of user",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Post successfully unliked",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Success"
+                                },
+                                "example": {
+                                    "code": 200,
+                                    "message": "Post successfully unliked"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/relations": {
+            "post": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Create new relation between two users",
+                "operationId": "createRelations",
+                "tags": [
+                    "relation"
+                ],
+                "requestBody": {
+                    "description": "Information about users and type of relation",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserRelation"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Relation successfully created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Success"
+                                },
+                                "example": {
+                                    "code": 201,
+                                    "message": "Relation successfully created"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "get all relations of a user",
+                "operationId": "getRelations",
+                "tags": [
+                    "relation"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "user_id",
+                        "required": true,
+                        "description": "id of users whose relations is to be listed",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List user that are related to current user",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetUserRelations"
+                                },
+                                "example": [
+                                    {
+                                        "id": 10,
+                                        "owner": 25,
+                                        "user": {
+                                            "id": 10,
+                                            "name": "tester",
+                                            "firstname": "Tester",
+                                            "lastname": "Tester",
+                                            "image": "profile.jpg",
+                                            "color": "#fff000"
+                                        },
+                                        "created_at": "2021-08-14T21:03:30.000000Z"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Remove relation between users",
+                "operationId": "unfollow",
+                "tags": [
+                    "relation"
+                ],
+                "parameters": [
+                    {
+                        "name": "sender_id",
+                        "in": "query",
+                        "description": "ID of user who is owner of relation (\"Followed by\")",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "recipient_id",
+                        "in": "query",
+                        "description": "ID of user whom the owner is related to (\"Followed to\")",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Relation successfully removed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Success"
+                                },
+                                "example": {
+                                    "code": 200,
+                                    "message": "Relation successfully removed "
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+        },
+        "/relations/{id}": {
+            "get": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "get a relations",
+                "operationId": "getRelation",
+                "tags": [
+                    "relation"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "id of relation is to be listed",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get a relation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetUserRelations"
+                                },
+                                "example": [
+                                    {
+                                        "id": 10,
+                                        "owner": 25,
+                                        "user": {
+                                            "id": 10,
+                                            "name": "tester",
+                                            "firstname": "Tester",
+                                            "lastname": "Tester",
+                                            "image": "profile.jpg",
+                                            "color": "#fff000"
+                                        },
+                                        "created_at": "2021-08-14T21:03:30.000000Z"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Remove relation between users by id",
+                "operationId": "deleteRelation",
+                "tags": [
+                    "relation"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of relation",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Relation successfully removed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Success"
+                                },
+                                "example": {
+                                    "code": 200,
+                                    "message": "Relation successfully removed "
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/relations/{id}/status/{status}": {
+            "put": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Change a status relation",
+                "operationId": "changeStatusRelation",
+                "tags": [
+                    "relation"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the relation",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "path",
+                        "description": "status of the relation",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "pending",
+                                "acepted",
+                                "rejected"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Relation successfully updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Success"
+                                },
+                                "example": {
+                                    "code": 200,
+                                    "message": "Relation successfully updated"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/images": {
+            "post": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Create a new image",
+                "operationId": "createImage",
+                "tags": [
+                    "image"
+                ],
+                "requestBody": {
+                    "description": "Add Image to system",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Image"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Image Successfully Added",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Success"
+                                },
+                                "example": {
+                                    "code": 201,
+                                    "message": "post successfully created"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Returns list of images based on limit and offset",
+                "operationId": "listImages",
+                "tags": [
+                    "image"
+                ],
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/offsetParam"
+                    },
+                    {
+                        "$ref": "#/components/parameters/limitParam"
+                    },
+                    {
+                        "in": "query",
+                        "name": "type",
+                        "required": true,
+                        "description": "type of images to be retrieved.",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "all",
+                                "following",
+                                "user"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of images",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetImages"
+                                },
+                                "example": [
+                                    {
+                                        "id": 13,
+                                        "type": "alpha",
+                                        "created_at": "2021-08-14T21:03:30.000000Z",
+                                        "file_url": "alpha.jpg"
+                                    },
+                                    {
+                                        "id": 14,
+                                        "type": "default",
+                                        "created_at": "2021-08-14T21:03:30.000000Z",
+                                        "file_url": "alpha.jpg"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/images/{id}": {
+            "get": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Returns image detail",
+                "operationId": "getImage",
+                "tags": [
+                    "image"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details about a image by ID",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetImage"
+                                },
+                                "example": {
+                                    "summary": "Example of image",
+                                    "value": {
+                                        "id": 13,
+                                        "type": "alpha",
+                                        "file_url": "alpha.jpg",
+                                        "created_at": "2021-08-14T21:03:30.000000Z"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Delete a single image",
+                "operationId": "deleteImage",
+                "tags": [
+                    "image"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the image",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Image successfully deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Success"
+                                },
+                                "example": {
+                                    "code": 200,
+                                    "message": "image successfully deleted"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/images/{id}/post/{post_id}": {
+            "post": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Add Post to Image",
+                "operationId": "addPostToImage",
+                "tags": [
+                    "image"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "post_id",
+                        "in": "path",
+                        "description": "ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details about a image by ID",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Image"
+                                },
+                                "example": {
+                                    "summary": "Example of Image",
+                                    "value": {
+                                           "id": 1,
+                                           "type": "default",
+                                           "file_url": "default.jpg"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/images/{id}/user/{user_id}": {
+            "post": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Add User to Image",
+                "operationId": "addUserToImage",
+                "tags": [
+                    "image"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details about a image by ID",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Image"
+                                },
+                                "example": {
+                                    "summary": "Example of Image",
+                                    "value": {
+                                           "id": 1,
+                                           "type": "default",
+                                           "file_url": "default.jpg"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/videos": {
+            "post": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Create a new video",
+                "operationId": "createVideo",
+                "tags": [
+                    "video"
+                ],
+                "requestBody": {
+                    "description": "Add Video to system",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Video"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Video Successfully Added",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Success"
+                                },
+                                "example": {
+                                    "code": 201,
+                                    "message": "post successfully created"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Returns list of videos based on limit and offset",
+                "operationId": "listVideos",
+                "tags": [
+                    "video"
+                ],
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/offsetParam"
+                    },
+                    {
+                        "$ref": "#/components/parameters/limitParam"
+                    },
+                    {
+                        "in": "query",
+                        "name": "type",
+                        "required": true,
+                        "description": "type of videos to be retrieved.",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "all",
+                                "following",
+                                "user"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of videos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetVideos"
+                                },
+                                "example": [
+                                    {
+                                        "id": 13,
+                                        "type": "alpha",
+                                        "created_at": "2021-08-14T21:03:30.000000Z",
+                                        "file_url": "file.mp4"
+                                    },
+                                    {
+                                        "id": 14,
+                                        "type": "default",
+                                        "created_at": "2021-08-14T21:03:30.000000Z",
+                                        "file_url": "file.mp4"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/videos/{id}": {
+            "get": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Returns video detail",
+                "operationId": "getVideo",
+                "tags": [
+                    "video"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details about a video by ID",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetVideo"
+                                },
+                                "example": {
+                                    "summary": "Example of video",
+                                    "value": {
+                                        "id": 13,
+                                        "file_url": "file.mp4",
+                                        "created_at": "2021-08-14T21:03:30.000000Z"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Delete a single video",
+                "operationId": "deleteVideo",
+                "tags": [
+                    "video"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the video",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Video successfully deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Success"
+                                },
+                                "example": {
+                                    "code": 200,
+                                    "message": "video successfully deleted"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/videos/{id}/post/{post_id}": {
+            "post": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Add Post to Video",
+                "operationId": "addPostToVideo",
+                "tags": [
+                    "video"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "post_id",
+                        "in": "path",
+                        "description": "ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details about a video by ID",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Video"
+                                },
+                                "example": {
+                                    "summary": "Example of Video",
+                                    "value": {
+                                           "id": 1,
+                                           "file_url": "video1s.mp4"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/videos/{id}/user/{user_id}": {
+            "post": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Add User to Video",
+                "operationId": "addUserToVideo",
+                "tags": [
+                    "video"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details about a video by ID",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Video"
+                                },
+                                "example": {
+                                    "summary": "Example of Video",
+                                    "value": {
+                                           "id": 1,
+                                           "file_url": "video1s.mp4"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/thumbs": {
+            "post": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Create a new thumb",
+                "operationId": "createThumb",
+                "tags": [
+                    "thumb"
+                ],
+                "requestBody": {
+                    "description": "Add Thumb to system",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Thumb"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Thumb Successfully Added",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Success"
+                                },
+                                "example": {
+                                    "code": 201,
+                                    "message": "post successfully created"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Returns list of thumbs based on limit and offset",
+                "operationId": "listThumbs",
+                "tags": [
+                    "thumb"
+                ],
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/offsetParam"
+                    },
+                    {
+                        "$ref": "#/components/parameters/limitParam"
+                    },
+                    {
+                        "in": "query",
+                        "name": "type",
+                        "required": true,
+                        "description": "type of thumbs to be retrieved.",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "all",
+                                "following",
+                                "user"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of thumbs",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetThumbs"
+                                },
+                                "example": [
+                                    {
+                                        "id": 13,
+                                        "type": "alpha",
+                                        "created_at": "2021-08-14T21:03:30.000000Z",
+                                        "file_url": "thumb1.jpg"
+                                    },
+                                    {
+                                        "id": 14,
+                                        "type": "default",
+                                        "created_at": "2021-08-14T21:03:30.000000Z",
+                                        "file_url": "thumb1.jpg"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/thumbs/{id}": {
+            "get": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Returns thumb detail",
+                "operationId": "getThumb",
+                "tags": [
+                    "thumb"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details about a thumb by ID",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetThumb"
+                                },
+                                "example": {
+                                    "summary": "Example of thumb",
+                                    "value": {
+                                        "id": 13,
+                                        "file_url": "thumb1.jpg",
+                                        "created_at": "2021-08-14T21:03:30.000000Z"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Delete a single thumb",
+                "operationId": "deleteThumb",
+                "tags": [
+                    "thumb"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the thumb",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Thumb successfully deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Success"
+                                },
+                                "example": {
+                                    "code": 200,
+                                    "message": "thumb successfully deleted"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/thumbs/{id}/post/{post_id}": {
+            "post": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Add Post to Thumb",
+                "operationId": "addPostToThumb",
+                "tags": [
+                    "thumb"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "post_id",
+                        "in": "path",
+                        "description": "ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details about a thumb by ID",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Thumb"
+                                },
+                                "example": {
+                                    "summary": "Example of Thumb",
+                                    "value": {
+                                           "id": 1,
+                                           "file_url": "thumb1s.mp4"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/feeds": {
+            "post": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Create a new feed",
+                "operationId": "createFeed",
+                "tags": [
+                    "feed"
+                ],
+                "requestBody": {
+                    "description": "Add Feed to system",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Feed"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Feed Successfully Added",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Success"
+                                },
+                                "example": {
+                                    "code": 201,
+                                    "message": "post successfully created"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Returns list of feeds based on limit and offset",
+                "operationId": "listFeeds",
+                "tags": [
+                    "feed"
+                ],
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/offsetParam"
+                    },
+                    {
+                        "$ref": "#/components/parameters/limitParam"
+                    },
+                    {
+                        "in": "query",
+                        "name": "type",
+                        "required": true,
+                        "description": "type of feeds to be retrieved.",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "all",
+                                "following",
+                                "user"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of feeds",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetFeeds"
+                                },
+                                "example": [
+                                    {
+                                        "id": 13,
+                                        "type": "default",
+                                        "created_at": "2021-08-14T21:03:30.000000Z"
+                                    },
+                                    {
+                                        "id": 14,
+                                        "type": "relation",
+                                        "created_at": "2021-08-14T21:03:30.000000Z"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/feeds/{id}": {
+            "get": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Returns feed detail",
+                "operationId": "getFeed",
+                "tags": [
+                    "feed"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details about a feed by ID",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetFeed"
+                                },
+                                "example": {
+                                    "summary": "Example of feed",
+                                    "value": {
+                                        "id": 13,
+                                        "type": "post",
+                                        "created_at": "2021-08-14T21:03:30.000000Z"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Delete a single feed",
+                "operationId": "deleteFeed",
+                "tags": [
+                    "feed"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the feed",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Feed successfully deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Success"
+                                },
+                                "example": {
+                                    "code": 200,
+                                    "message": "feed successfully deleted"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/feeds-by-user/{user_id}/status/{status}": {
+            "get": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Get feeds from user by feed status",
+                "operationId": "getFeedsByUserAndStatus",
+                "tags": [
+                    "feed"
+                ],
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "ID of the user",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "path",
+                        "description": "status of the feed",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "unread",
+                                "received",
+                                "read"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Feed successfully updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Success"
+                                },
+                                "example": {
+                                    "code": 200,
+                                    "message": "feed successfully updated"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/feeds/{id}/status/{status}": {
+            "put": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Change a status feed",
+                "operationId": "changeStatusFeed",
+                "tags": [
+                    "feed"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the feed",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "path",
+                        "description": "status of the feed",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "unread",
+                                "received",
+                                "read"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Feed successfully updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Success"
+                                },
+                                "example": {
+                                    "code": 200,
+                                    "message": "feed successfully updated"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/uploads/{user_id}/type/{type}": {
+            "post": {
+                "security": [
+                    {
+                    "bearerAuth": []
+                    },
+                ],
+                "summary": "Upload a file",
+                "operationId": "uploadFile",
+                "tags": [
+                    "upload"
+                ],
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "User ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "in": "path",
+                        "name": "type",
+                        "required": true,
+                        "description": "type of file to be retrieved.",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "image",
+                                "video",
+                                "thumb"
+                            ]
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Add Feed to system",
+                    "content": {
+                        "multipart/form-data": {
+                            "required": true,
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "file":{
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Image Successfully Added",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Success"
+                                },
+                                "example": {
+                                    "code": 201,
+                                    "message": "post successfully created"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+        },
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth":  {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        },
+        "schemas": {
+            "Login": {
+                "type": "object",
+                "required": [
+                    "email",
+                    "password"
+                ],
+                "properties": {
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Users": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/User"
+                }
+            },
+            "User": {
+                "type": "object",
+                "required": [
+                    "name",
+                    "firstname",
+                    "lastname",
+                    "email"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "bio": {
+                        "type": "string"
+                    },
+                    "firstname": {
+                        "type": "string"
+                    },
+                    "lastname": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "img": {
+                        "type": "string"
+                    },
+                    "color": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "id": 21,
+                    "name": "tester",
+                    "firstname": "Tester",
+                    "lastname": "Tester",
+                    "password": "testtester",
+                    "email": "test@tester.com",
+                    "img": "profile.jpg",
+                    "color": "#fff000"
+                }
+            },
+            "registerUser": {
+                "type": "object",
+                "required": [
+                    "name",
+                    "password",
+                    "email"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "bio": {
+                        "type": "string"
+                    },
+                    "firstname": {
+                        "type": "string"
+                    },
+                    "lastname": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "img": {
+                        "type": "string"
+                    },
+                    "color": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "id": 21,
+                    "name": "tester",
+                    "firstname": "Tester",
+                    "lastname": "Tester",
+                    "email": "test@tester.com",
+                    "img": "profile.jpg",
+                    "color": "#fff000"
+                }
+            },
+            "UserRelation": {
+                "type": "object",
+                "required": [
+                    "owner",
+                    "user",
+                    "type"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1
+                    },
+                    "sender_id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1
+                    },
+                    "recipient_id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1
+                    }
+                },
+                "example": {
+                    "id": 11,
+                    "sender_id": 10,
+                    "recipient_id": 12
+                }
+            },
+            "GetUserRelations": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/GetUserRelation"
+                }
+            },
+            "GetUserRelation": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "owner",
+                    "user"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1
+                    },
+                    "sender_id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1
+                    },
+                    "recipient_id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1
+                    }
+                }
+            },
+            "Post": {
+                "type": "object",
+                "required": [
+                    "user_id"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1
+                    },
+                    "user_id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "thumb_url": {
+                        "type": "string"
+                    },
+                    "thumb_id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1
+                    },
+                    "images": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Image"
+                        }
+                    },
+                    "videos": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Video"
+                        }
+                    }
+                },
+                "example": {
+                    "id": 10,
+                    "user_id": 10,
+                    "created_at": "2021-08-14T21:03:30.000000Z",
+                    "description": "my post",
+                    "thumb_id": 1,
+                    "images": [
+                        {
+                            "id": 1,
+                            "type": "default",
+                            "file_url": "default.jpg"
+                        },
+                        {
+                            "id": 1,
+                            "type": "alpha",
+                            "file_url": "alpha.jpg"
+                        }
+                    ],
+                    "videos":[
+                        {
+                            "id": 1,
+                            "file_url": "video.mp4"
+                        }
+                    ]  
+                }
+            },
+            "GetPosts": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/GetPost"
+                }
+            },
+            "GetPost": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "owner"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1
+                    },
+                    "owner": {
+                        "$ref": "#/components/schemas/User"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "thumb_id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1
+                    },
+                    "like_count": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1
+                    },
+                    "comment_count": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1
+                    },
+                    "content": {
+                        "type": "string"
+                    },
+                    "images": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Image"
+                        }
+                    },
+                    "videos": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Video"
+                        }
+                    }
+                },
+                "example": {
+                    "id": 10,
+                    "owner": {
+                        "id": 10,
+                        "name": "tester",
+                        "firstname": "Tester",
+                        "lastname": "Tester",
+                        "image": "profile.jpg",
+                        "color": "#fff000"
+                    },
+                    "created_at": "2021-08-14T21:03:30.000000Z",
+                    "like_count": 9,
+                    "comment_count": 12,
+                    "content": "example content",
+                    "thumb_id": 1,
+                    "images": [
+                        {
+                            "id": 1,
+                            "type": "default",
+                            "file_url": "default.jpg"
+                        },
+                        {
+                            "id": 1,
+                            "type": "alpha",
+                            "file_url": "alpha.jpg"
+                        }
+                    ],
+                    "videos":[
+                        {
+                            "id": 1,
+                            "file_url": "video.mp4"
+                        }
+                    ]
+                }
+            },
+            "GetComments": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/GetComment"
+                }
+            },
+            "GetComment": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "post",
+                    "owner",
+                    "body"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "post": {
+                        "type": "integer"
+                    },
+                    "owner": {
+                        "$ref": "#/components/schemas/User"
+                    },
+                    "body": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "example": {
+                    "id": 23,
+                    "post": 32,
+                    "owner": {
+                        "id": 10,
+                        "name": "tester",
+                        "firstname": "Tester",
+                        "lastname": "Tester",
+                        "image": "profile.jpg",
+                        "color": "#fff000"
+                    },
+                    "body": "i like this post",
+                    "created_at": "2021-08-14T21:03:30.000000Z"
+                }
+            },
+            "Comment": {
+                "type": "object",
+                "required": [
+                    "post_id",
+                    "user_id",
+                    "body"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "post": {
+                        "type": "integer"
+                    },
+                    "owner": {
+                        "type": "integer"
+                    },
+                    "body": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "example": {
+                    "id": 23,
+                    "post_id": 32,
+                    "user_id": 10,
+                    "body": "i like this post",
+                    "created_at": "2021-08-14T21:03:30.000000Z"
+                }
+            },
+            "GetLikes": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/GetLike"
+                }
+            },
+            "GetLike": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "post",
+                    "owner"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1
+                    },
+                    "post_id": {
+                        "type": "integer"
+                    },
+                    "owner": {
+                        "$ref": "#/components/schemas/User"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "example": {
+                    "id": 10,
+                    "post": 25,
+                    "owner": {
+                        "id": 10,
+                        "name": "tester",
+                        "firstname": "Tester",
+                        "lastname": "Tester",
+                        "image": "profile.jpg",
+                        "color": "#fff000"
+                    },
+                    "created_at": "2021-08-14T21:03:30.000000Z"
+                }
+            },
+            "Like": {
+                "type": "object",
+                "required": [
+                    "post",
+                    "owner"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1
+                    },
+                    "post_id": {
+                        "type": "integer"
+                    },
+                    "user_id": {
+                        "type": "integer"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "example": {
+                    "id": 10,
+                    "post_id": 25,
+                    "user_id": 10,
+                    "created_at": "2021-08-14T21:03:30.000000Z"
+                }
+            },
+            "Image": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "type",
+                    "file_url"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "alpha",
+                            "color",
+                            "profile",
+                            "default"
+                        ]
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "file_url": {
+                        "type": "string"
+                    }
+                }
+            },
+            "GetImages": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/GetImage"
+                }
+            },
+            "GetImage": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "owner"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "file_url": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "id": 1,
+                    "type": "default",
+                    "file_url": "default.jpg",
+                    "created_at": "2021-08-14T21:03:30.000000Z",
+                }
+            },
+            "Video": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "file_url"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "file_url": {
+                        "type": "string"
+                    }
+                }
+            },
+            "GetVideos": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/GetVideo"
+                }
+            },
+            "GetVideo": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "owner"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "file_url": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "id": 1,
+                    "file_url": "file.mp4",
+                    "created_at": "2021-08-14T21:03:30.000000Z",
+                }
+            },
+            "Thumb": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "file_url"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "file_url": {
+                        "type": "string"
+                    }
+                }
+            },
+            "GetThumbs": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/GetThumb"
+                }
+            },
+            "GetThumb": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "owner"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "file_url": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "id": 1,
+                    "file_url": "thumb1.jpg",
+                    "created_at": "2021-08-14T21:03:30.000000Z",
+                }
+            },
+            "Feed": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "user_id",
+                    "type",
+                    "file_url"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1
+                    },
+                    "feedable_id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1
+                    },
+                    "user_id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "relation",
+                            "like",
+                            "post",
+                            "default"
+                        ]
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "file_url": {
+                        "type": "string"
+                    }
+                }
+            },
+            "GetFeeds": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/GetFeed"
+                }
+            },
+            "GetFeed": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "user_id"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1
+                    },
+                    "feedable_id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1
+                    },
+                    "user_id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "file_url": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "id": 1,
+                    "type": "default",
+                    "created_at": "2021-08-14T21:03:30.000000Z",
+                }
+            },
+            "Success": {
+                "type": "object",
+                "required": [
+                    "code",
+                    "message"
+                ],
+                "properties": {
+                    "code": {
+                        "type": "integer",
+                        "format": "int32",
+                        "minimum": 200,
+                        "maximum": 201
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "Post has been successfully added"
+                    }
+                },
+                "example": {
+                    "code": 200,
+                    "message": "Object have been successfully added"
+                }
+            },
+            "Error": {
+                "type": "object",
+                "required": [
+                    "code",
+                    "message"
+                ],
+                "properties": {
+                    "code": {
+                        "type": "integer",
+                        "format": "int32",
+                        "minimum": 400,
+                        "maximum": 511
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "code": 500,
+                    "message": "something went wrong!"
+                }
+            }
+        },
+        "parameters": {
+            "offsetParam": {
+                "name": "offset",
+                "in": "query",
+                "description": "",
+                "required": false,
+                "schema": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 0,
+                    "default": 0
+                }
+            },
+            "limitParam": {
+                "name": "limit",
+                "in": "query",
+                "description": "",
+                "required": false,
+                "schema": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 1,
+                    "maximum": 100,
+                    "default": 20
+                }
+            }
+        }
+    }
+}
