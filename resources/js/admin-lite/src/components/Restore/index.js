@@ -131,32 +131,6 @@ const Restore= () =>{
             .then(res => res.json())
     }
 
-    function RestoreShare() {
-        const headers = new Headers();
-        headers.append('Authorization', "Bearer " + localStorage.getItem('token'));
-
-        const requestOptions = {
-            method: 'POST',
-            headers,
-            redirect: 'follow'
-        };
-        fetch(config.API_URL + '/share/restore', requestOptions)
-            .then(res => res.json())
-    }
-
-    function RestoreLikes() {
-        const headers = new Headers();
-        headers.append('Authorization', "Bearer " + localStorage.getItem('token'));
-
-        const requestOptions = {
-            method: 'POST',
-            headers,
-            redirect: 'follow'
-        };
-        fetch(config.API_URL + '/likes/restore', requestOptions)
-            .then(res => res.json())
-    }
-
     function RestoreFeeds() {
         const headers = new Headers();
         headers.append('Authorization', "Bearer " + localStorage.getItem('token'));

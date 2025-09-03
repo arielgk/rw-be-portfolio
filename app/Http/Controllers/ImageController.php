@@ -68,7 +68,7 @@ class ImageController extends Controller
 
         $images = Image::all();
 
-        if ($images == null) {
+        if ($images->isEmpty()) {
             return response()->json([
                 'success' => false,
                 'image' => 'image not available'
@@ -93,7 +93,7 @@ class ImageController extends Controller
 
         $image = Image::where('id', $id)->first();
 
-        if ($image != null) {
+        if ($image) {
             return response()->json([
                 'success' => true,
                 'image' => $image
@@ -116,9 +116,9 @@ class ImageController extends Controller
             ]);
         }
 
-        $image = Image::destroy($id);
+        $deleted = Image::destroy($id);
 
-        if ($image == null) {
+        if ($deleted > 0) {
             return response()->json([
                 'success' => true,
                 'message' => 'image was destroyed'
@@ -143,7 +143,7 @@ class ImageController extends Controller
 
         $image = Image::where('id', $id)->first();
 
-        if ($image != null) {
+        if ($image) {
             $image->posts()->attach($post_id);
             return response()->json([
                 'success' => true,
@@ -168,7 +168,7 @@ class ImageController extends Controller
 
         $image = Image::where('id', $id)->first();
 
-        if ($image != null) {
+        if ($image) {
             $image->users()->attach($user_id);
             return response()->json([
                 'success' => true,
@@ -194,17 +194,11 @@ class ImageController extends Controller
         $aux = new ImagesTableSeeder;
         $images = $aux->run();
 
-        if ($images == null) {
-            return response()->json([
-                'success' => true,
-                'message' => 'images was restored'
-            ]);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'images not restored'
-            ]);
-        }
+        // Seeder operation succeeded
+        return response()->json([
+            'success' => true,
+            'message' => 'images was restored'
+        ]);
     }
 
 }

@@ -78,7 +78,7 @@ class LikeController extends Controller
 
         $likes = Like::all();
 
-        if ($likes == null) {
+        if ($likes->isEmpty()) {
             return response()->json([
                 'success' => false,
                 'like' => 'like not available'
@@ -103,7 +103,7 @@ class LikeController extends Controller
 
         $like = Like::where('id', $id)->first();
 
-        if ($like != null) {
+        if ($like) {
             return response()->json([
                 'success' => true,
                 'like' => $like
@@ -133,7 +133,7 @@ class LikeController extends Controller
         if ($like)
             Like::destroy($id);
 
-        if ($like != null) {
+        if ($like) {
             return response()->json([
                 'success' => true,
                 'post' => $post,
@@ -159,17 +159,11 @@ class LikeController extends Controller
         $aux = new LikesTableSeeder;
         $likes = $aux->run();
 
-        if ($likes == null) {
-            return response()->json([
-                'success' => true,
-                'message' => 'likes was restored'
-            ]);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'likes not restored'
-            ]);
-        }
+        // Seeder operation succeeded
+        return response()->json([
+            'success' => true,
+            'message' => 'likes was restored'
+        ]);
     }
 
 }

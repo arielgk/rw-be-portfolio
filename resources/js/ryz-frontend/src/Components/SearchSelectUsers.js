@@ -112,8 +112,6 @@ const SearchSelectUsers = ({handleSelectedIds, setDisabled, label, followings,se
             setSelected(values)
         } else {
             handleSelectedIds(selectedOption.value)
-            console.log(selectedOption)
-
             setDisabled(false);
         }
 
@@ -242,7 +240,6 @@ const SearchSelectUsers = ({handleSelectedIds, setDisabled, label, followings,se
             })
             .catch((error) => {
                     location.href = "uniwebview://action?type=error?message=" + error;
-                    console.log("error", error)
                 }
             );
     }, []);
@@ -260,7 +257,7 @@ const SearchSelectUsers = ({handleSelectedIds, setDisabled, label, followings,se
             {enableSelect || <div className={"select-overlay"} onClick={() => {
                 setEnableSelect(true);
                 inputEl.current.focus();
-            }}>< /div>}
+            }}></div>}
             <SelectContainer inputChange={handleInputChange}>
 
                 <Select

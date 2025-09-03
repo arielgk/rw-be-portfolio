@@ -28,3 +28,8 @@ docs/.trash/
 
 resources/js/ryz-frontend/.idea/
 resources/js/ryz-frontend/node_modules/
+concatenate_files.sh
+
+concatenated_files.txt
+
+to_fix.txt

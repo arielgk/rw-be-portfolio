@@ -96,11 +96,7 @@ const SelectUsers = ({handleSelectedIds, setDisabled, label, followings, multi =
             handleSelectedIds(values)
             setSelected(values)
         } else {
-
-            console.log(selectedOption);
             handleSelectedIds(selectedOption.value)
-
-
             setDisabled(false);
         }
 
@@ -133,16 +129,13 @@ const SelectUsers = ({handleSelectedIds, setDisabled, label, followings, multi =
             color: '#ADAEB0',
         }),
         menuList: (provided, state) => {
-            console.log(state.children.length)
-
             return (
                 {
                     ...provided,
                     // background: '#1c8faa',
 
                     background: '#ffffff',
-                    color: 'white',
-                    display: 'flex',
+                    color: 'black',
                 })
         },
         singleValue: (provided, state) => ({
@@ -230,7 +223,6 @@ const SelectUsers = ({handleSelectedIds, setDisabled, label, followings, multi =
             })
             .catch((error) => {
                     location.href = "uniwebview://action?type=error?message=" + error;
-                    console.log("error", error)
                 }
             );
     }, []);

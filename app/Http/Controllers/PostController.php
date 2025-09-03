@@ -153,7 +153,7 @@ class PostController extends Controller
             ->get();
 
 
-        if ($posts == null) {
+        if ($posts->isEmpty()) {
             return response()->json([
                 'success' => false,
                 'post' => 'post not available'
@@ -180,7 +180,7 @@ class PostController extends Controller
 
 
 
-        if ($post != null) {
+        if ($post) {
             return response()->json([
                 'success' => true,
                 'post' => $post
@@ -203,9 +203,9 @@ class PostController extends Controller
             ]);
         }
 
-        $post = Post::destroy($id);
+        $deleted = Post::destroy($id);
 
-        if ($post == null) {
+        if ($deleted > 0) {
             return response()->json([
                 'success' => true,
                 'message' => 'post was destroyed'
@@ -229,7 +229,7 @@ class PostController extends Controller
 
         $post = Post::where('id', $id)->first();
 
-        if ($post != null) {
+        if ($post) {
             $post->images()->attach($image_id);
             return response()->json([
                 'success' => true,
@@ -255,7 +255,7 @@ class PostController extends Controller
 
         $post = Post::where('id', $id)->first();
 
-        if ($post != null) {
+        if ($post) {
             $post->videos()->attach($video_id);
             return response()->json([
                 'success' => true,
@@ -280,7 +280,7 @@ class PostController extends Controller
 
         $post = Post::where('id', $id)->first();
 
-        if ($post != null) {
+        if ($post) {
             $post->thumb_id = $thumb_id;
             $post->save();
             return response()->json([
@@ -338,17 +338,11 @@ class PostController extends Controller
         $aux2 = new PostsTableSeeder;
         $posts = $aux2->run();
 
-        if ($posts == null) {
-            return response()->json([
-                'success' => true,
-                'message' => 'posts was restored'
-            ]);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'posts not restored'
-            ]);
-        }
+        // Seeder operation succeeded
+        return response()->json([
+            'success' => true,
+            'message' => 'posts was restored'
+        ]);
     }
 
 }

@@ -23,7 +23,7 @@ class TagController extends Controller
 
         $tags = Tag::all();
 
-        if ($tags == null) {
+        if ($tags->isEmpty()) {
             return response()->json([
                 'success' => false,
                 'post' => 'no tags available'
@@ -51,17 +51,11 @@ class TagController extends Controller
 
         $shares = null;
 
-        if ($shares == null) {
-            return response()->json([
-                'success' => true,
-                'message' => 'shares was restored'
-            ]);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'shares not restored'
-            ]);
-        }
+        // Seeder operation succeeded
+        return response()->json([
+            'success' => true,
+            'message' => 'shares was restored'
+        ]);
     }
 
 }

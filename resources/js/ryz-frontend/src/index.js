@@ -37,7 +37,6 @@ if(value.receiver_id ){
 }
 
 if(value.host){
-    console.log(helpers.replaceInvalidCharacters(value.host));
     localStorage.setItem('host', helpers.b64DecodeUnicode(helpers.replaceInvalidCharacters(value.host)));
 }
 

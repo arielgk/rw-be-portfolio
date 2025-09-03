@@ -1,4 +1,4 @@
-import React, {useDebugValue, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Tag from './Tag';
 import MasonryGrid from './MasonryGrid';
 import * as config from '../config';
@@ -8,7 +8,6 @@ import searchIcon from '../Search.svg'
 
 function useStateWithLabel(initialValue, name) {
     const [value, setValue] = useState(initialValue);
-    useDebugValue(`${name}: ${value}`);
     return [value, setValue];
 }
 
@@ -48,15 +47,12 @@ const Search = () => {
                 //     location.href = "uniwebview://action?type=error?message=" + error;
 
                 if (result.success) {
-                    console.log(result.posts);
                     setPosts(result.posts);
-
                 }
 
             })
             .catch((error) => {
                     // location.href = "uniwebview://action?type=error?message=" + error;
-                    console.log("error", error)
                 }
             );
 
@@ -65,7 +61,6 @@ const Search = () => {
 
     useEffect(() => {
 
-        console.log(selectedUser)
         if (selectedUser)
             location.href= "uniwebview://action?type=user&user_id=" + selectedUser.id
         //
@@ -105,8 +100,7 @@ const Search = () => {
                 })
                 .catch((error) => {
                         // location.href = "uniwebview://action?type=error?message=" + error;
-                        console.log("error", error)
-                    }
+                        }
                 );
         // }
     }, [inputValue])
@@ -135,13 +129,8 @@ const Search = () => {
                 if (result.success) {
 
                     const tags = result.tags.map((item) => {
-                        console.log(item.name.en);
-
-                        // return item;
                         return Object.assign({}, item, {name: item.name.en, slug: item.slug.en});
-
                     })
-                    console.log(tags)
                     setTags(tags);
 
                 }
@@ -149,7 +138,6 @@ const Search = () => {
             })
             .catch((error) => {
                     location.href = "uniwebview://action?type=error?message=" + error;
-                    console.log("error", error)
                 }
             );
     }, []);

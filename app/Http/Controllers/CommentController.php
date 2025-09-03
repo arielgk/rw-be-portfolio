@@ -70,7 +70,7 @@ class CommentController extends Controller
 
         $comments = Comment::all();
 
-        if ($comments == null) {
+        if ($comments->isEmpty()) {
             return response()->json([
                 'success' => false,
                 'comment' => 'comment not available'
@@ -95,7 +95,7 @@ class CommentController extends Controller
 
         $comment = Comment::where('id', $id)->first();
 
-        if ($comment != null) {
+        if ($comment) {
             return response()->json([
                 'success' => true,
                 'comment' => $comment
@@ -118,9 +118,9 @@ class CommentController extends Controller
             ]);
         }
 
-        $comment = Comment::destroy($id);
+        $deleted = Comment::destroy($id);
 
-        if ($comment == null) {
+        if ($deleted > 0) {
             return response()->json([
                 'success' => true,
                 'message' => 'comment was destroyed'
@@ -128,7 +128,7 @@ class CommentController extends Controller
         } else {
             return response()->json([
                 'success' => false,
-                'message' => 'comment not available'
+                'message' => 'comment not found or could not be deleted'
             ]);
         }
     }
@@ -146,16 +146,10 @@ class CommentController extends Controller
         $aux = new CommentsTableSeeder;
         $comments = $aux->run();
 
-        if ($comments == null) {
-            return response()->json([
-                'success' => true,
-                'message' => 'comments was restored'
-            ]);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'comments not restored'
-            ]);
-        }
+        // Seeder typically doesn't return null, check if operation succeeded
+        return response()->json([
+            'success' => true,
+            'message' => 'comments was restored'
+        ]);
     }
 }

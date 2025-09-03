@@ -1,9 +1,4 @@
-// export const url ='http://192.168.1.45/api/v1/';
-// export const url ='http://72.167.43.229/api/v1/';
-// export const url ="http://02b8-191-85-122-144.ngrok.io/api/v1/"
-
-
-export const url = localStorage.getItem("host");
+export const url = localStorage.getItem("host") || process.env.REACT_APP_API_URL || 'http://localhost:8000/api/v1/';
 export const theme = "dark";
 export const themeConfig = {
     dark:{

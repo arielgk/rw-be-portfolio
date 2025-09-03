@@ -66,7 +66,7 @@ class FeedController extends Controller
 
         $feeds = Feed::all();
 
-        if ($feeds == null) {
+        if ($feeds->isEmpty()) {
             return response()->json([
                 'success' => false,
                 'feed' => 'feed not available'
@@ -91,7 +91,7 @@ class FeedController extends Controller
 
         $feed = Feed::where('id', $id)->first();
 
-        if ($feed != null) {
+        if ($feed) {
             return response()->json([
                 'success' => true,
                 'feed' => $feed
@@ -114,9 +114,9 @@ class FeedController extends Controller
             ]);
         }
 
-        $feed = Feed::destroy($id);
+        $deleted = Feed::destroy($id);
 
-        if ($feed == null) {
+        if ($deleted > 0) {
             return response()->json([
                 'success' => true,
                 'message' => 'feed was destroyed'
@@ -182,7 +182,7 @@ class FeedController extends Controller
                     $share->sender_user = User::find($share->sender_id);
                     $share->post = Post::find($share->post_id);
                     $share->thumb = Thumb::find($share->post->thumb_id);
-                    if ($share !== null)
+                    if ($share)
                         $feeds->push($share);
 
                     }catch (\Exception $e) {
@@ -211,7 +211,7 @@ class FeedController extends Controller
                         ->join('users as u', 'l.user_id', 'u.id')
                         ->first();
 
-                    if ($like !== null) {
+                    if ($like) {
                         $like->sender_user = User::find($like->sender_id);
                         $like->post = Post::find($like->post_id);
                         $like->thumb = Thumb::find($like->post->thumb_id);
@@ -244,7 +244,7 @@ class FeedController extends Controller
                         ->first();
 
 
-                    if ($post !== null)
+                    if ($post)
                         $feeds->push($post);
                     break;
                 case 'relation':
@@ -265,7 +265,7 @@ class FeedController extends Controller
                         ->join('users as u', 'r.sender_id', 'u.id')
                         ->join('users as u2', 'r.recipient_id', 'u2.id')
                         ->first();
-                    if ($relation !== null) {
+                    if ($relation) {
                         $relation->sender_user = User::find($relation->sender_id);
                         $feeds->push($relation);
                     }
@@ -291,7 +291,7 @@ class FeedController extends Controller
                         ->join('users as u', 'c.user_id', 'u.id')
                         ->first();
 
-                    if ($comment !== null) {
+                    if ($comment) {
                         $comment->sender_user = User::find($comment->sender_id);
                         $comment->post = Post::find($comment->post_id);
                         $comment->thumb = Thumb::find($comment->post->thumb_id);
@@ -317,7 +317,7 @@ class FeedController extends Controller
                         ->where('f.feedable_type', '=', 'message')
                         ->join('users as u', 'm.sender_id', 'u.id')
                         ->first();
-                    if ($message !== null) {
+                    if ($message) {
 
                         $message->sender_user = User::find($message->sender_id);
                         $message->message = Message::find($message->feedable_id);
@@ -363,7 +363,7 @@ class FeedController extends Controller
         $feed = Feed::where('id', $id)->first();
 
 
-        if ($feed != null) {
+        if ($feed) {
 
 
             $feed->status = $request->status;
@@ -414,17 +414,11 @@ class FeedController extends Controller
         $aux = new FeedsTableSeeder;
         $feeds = $aux->run();
 
-        if ($feeds == null) {
-            return response()->json([
-                'success' => true,
-                'message' => 'feeds was restored'
-            ]);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'feeds not restored'
-            ]);
-        }
+        // Seeder operation succeeded
+        return response()->json([
+            'success' => true,
+            'message' => 'feeds was restored'
+        ]);
     }
 
 }

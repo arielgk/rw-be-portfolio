@@ -24,7 +24,7 @@ class SearchController extends Controller
 
         $posts = Post::withAnyTags($request->tags)->with([ 'user', 'thumb'])->get();
 
-        if ($posts == null) {
+        if ($posts->isEmpty()) {
             return response()->json([
                 'success' => true,
                 'post' => []
@@ -52,7 +52,7 @@ class SearchController extends Controller
 
             ->with([ 'user', 'thumb'])->get();
 
-        if ($posts == null) {
+        if ($posts->isEmpty()) {
             return response()->json([
                 'success' => true,
                 'post' => []

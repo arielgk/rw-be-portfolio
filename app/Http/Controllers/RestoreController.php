@@ -35,7 +35,7 @@ class RestoreController extends Controller
             $error = 'mysqldump-php error: ' . $e->getMessage();
         }
 
-        if ($error == null) {
+        if (!$error) {
             return response()->json([
                 'success' => true,
                 'sql_url' => $url

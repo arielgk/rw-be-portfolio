@@ -81,7 +81,7 @@ class MessageController extends Controller
 
         $messages = Message::all();
 
-        if ($messages == null) {
+        if ($messages->isEmpty()) {
             return response()->json([
                 'success' => false,
                 'message' => 'messages not available'
@@ -106,7 +106,7 @@ class MessageController extends Controller
 
         $message = Message::where('id', $id)->first();
 
-        if ($message != null) {
+        if ($message) {
             return response()->json([
                 'success' => true,
                 'message' => $message
@@ -129,9 +129,9 @@ class MessageController extends Controller
             ]);
         }
 
-        $message = Message::destroy($id);
+        $deleted = Message::destroy($id);
 
-        if ($message == null) {
+        if ($deleted > 0) {
             return response()->json([
                 'success' => true,
                 'message' => 'message was destroyed'
@@ -166,7 +166,7 @@ class MessageController extends Controller
 
         $msg = Message::where('id', $id)->first();
 
-        if ($msg != null) {
+        if ($msg) {
 
             $msg->status = $request->status;
             $msg->save();
@@ -213,7 +213,7 @@ class MessageController extends Controller
 //            }
 //        }
 
-        if ($messages == null) {
+        if ($messages->isEmpty()) {
             return response()->json(['success' => true,
                 'message' => []]);
         }
@@ -236,19 +236,13 @@ class MessageController extends Controller
             ]);
         }
         
-        $messages = Message::truncate();
+        Message::truncate();
 
-        if ($messages == null) {
-            return response()->json([
-                'success' => true,
-                'message' => 'messages was restored'
-            ]);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'messages not restored'
-            ]);
-        }
+        // Truncate operation succeeded
+        return response()->json([
+            'success' => true,
+            'message' => 'messages was restored'
+        ]);
     }
 
 }

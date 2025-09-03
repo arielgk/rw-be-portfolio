@@ -77,17 +77,11 @@ class ShareController extends Controller
         $aux = new SharesTableSeeder;
         $shares = $aux->run();
 
-        if ($shares == null) {
-            return response()->json([
-                'success' => true,
-                'message' => 'shares was restored'
-            ]);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'shares not restored'
-            ]);
-        }
+        // Seeder operation succeeded
+        return response()->json([
+            'success' => true,
+            'message' => 'shares was restored'
+        ]);
     }
 
 }

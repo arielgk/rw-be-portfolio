@@ -125,7 +125,7 @@ Artisan::command('purge:images', function () {
     $posts = Post::all();
 
 
-    $domain = "http://02b8-191-85-122-144.ngrok.io/";
+    $domain = env('APP_URL', 'http://localhost:8000') . '/';
 
 
     foreach ($posts as $post) {
@@ -139,8 +139,8 @@ Artisan::command('purge:images', function () {
             $file = File::get(public_path('/') . $file_path);
 
             if ($file != null) {
-                $d = '/home/ariel/Dev/RW/rw-socialyz-be/public/purgue/' . $post->user->id . "/" . $image->type . "/";
-                $f = "/home/ariel/Dev/RW/rw-socialyz-be/public/" . $file_path;
+                $d = storage_path('app/public/purgue/') . $post->user->id . "/" . $image->type . "/";
+                $f = public_path($file_path);
 
                 echo "mkdir -p " . $d . " && cp " . $f . " " . $d . PHP_EOL;
 
@@ -152,8 +152,8 @@ Artisan::command('purge:images', function () {
 
         $file_path = str_replace($domain, "", $post->thumb->file_url);
 
-        $d = "/home/ariel/Dev/RW/rw-socialyz-be/public/purgue/" .$post->user->id . "/thumbnails/";
-        $f = "/home/ariel/Dev/RW/rw-socialyz-be/public/" . $file_path;
+        $d = storage_path('app/public/purgue/') . $post->user->id . "/thumbnails/";
+        $f = public_path($file_path);
 
         echo "mkdir -p " . $d . " && cp " . $f . " " . $d . PHP_EOL;
     }
@@ -177,15 +177,11 @@ function replaceDomain($url, $currentDomain, $newDomain)
 
 
 Artisan::command('rewrite:urls', function () {
-    //    $fileUrl = "http://192.168.1.45/uploads/1/AlphaAuto/qhXj3lI3fkGZ6NwcuU7GXt6DkyIV4ALmjEJ8rINL.png";
-    //    var_dump(replaceDomain($fileUrl, "http://192.168.1.45/","http://localhost:8000/"));
     $images = App\Models\Image::all();
     $thumbs = App\Models\Thumb::all();
 
-//    $current = "http://ec2-54-154-211-20.eu-west-1.compute.amazonaws.com/";
-//    $current = "http://7e14-191-85-120-116.ngrok.io/";
-    $current = "http://192.168.1.45/";
-    $new = "http://192.168.1.47/";
+    $current = env('OLD_APP_URL', 'http://192.168.1.45/');
+    $new = env('APP_URL', 'http://localhost:8000/');
 
     foreach ($images as $image) {
         $image->file_url = replaceDomain($image->file_url, $current, $new);

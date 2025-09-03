@@ -38,18 +38,13 @@ const Following = ({setShowFollowingSelect, reload, setReload, setFollowings}) =
             .then(result => {
                 if (result.success) {
                     setFollowingUsers(result.user.followins)
-                    console.log("done fetchFollowings")
                     setFollowings(result.user.followins)
                 }
             })
             .catch(error => {
-                console.log('error', error)
-
                 setTimeout(() => {
                     window.location.reload();
                 }, 1000);
-
-
             });
 
     }

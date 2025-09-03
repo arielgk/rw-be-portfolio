@@ -8,7 +8,6 @@ const Share = () => {
     const [selectedIds, setSelectedIds] = useState([]);
 
     const handleSubmit = () => {
-        console.log(selectedIds)
         if (selectedIds.length > 0) {
             SharePost();
         }
@@ -38,18 +37,14 @@ const Share = () => {
             .then((response) => response.json())
             .then((result) => {
                 if (result.success) {
-                    console.log("success")
                     location.href = "uniwebview://action?type=share?success=1";
-
                 } else {
                     location.href = "uniwebview://action?type=error?message=" + error;
-                    console.log("error", error)
                 }
 
             })
             .catch((error) => {
                     location.href = "uniwebview://action?type=error?message=" + error;
-                    console.log("error", error)
                 }
             );
 
@@ -78,18 +73,14 @@ const Share = () => {
             .then((response) => response.json())
             .then((result) => {
                 if (result.success) {
-                    console.log("success")
-
+                    // Success handled
                 } else {
-                    location.href = "uniwebview://action?type=error?message=" + error;
-                    console.log("error", error)
+                    location.href = "uniwebview://action?type=error?message=" + result.error;
                 }
 
             })
             .catch((error) => {
                 location.href = "uniwebview://action?type=error?message=" + error;
-                console.log("error", error)
-
             });
 
     }

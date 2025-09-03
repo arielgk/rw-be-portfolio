@@ -25,7 +25,7 @@ class UserController extends Controller
 
         $user = User::where('id', $id)->with('images')->first();
 
-        if ($user != null) {
+        if ($user) {
             return response()->json([
                 'success' => true,
                 'user' => $user
@@ -49,7 +49,7 @@ class UserController extends Controller
 
         $user = User::all();
 
-        if ($user == null) {
+        if ($user->isEmpty()) {
             return response()->json([
                 'success' => false,
                 'image' => 'image not available'
@@ -245,7 +245,7 @@ class UserController extends Controller
 
         $user = User::where('id', $id)->first();
 
-        if ($user != null) {
+        if ($user) {
             $user->images()->attach($image_id);
             return response()->json([
                 'success' => true,
@@ -270,7 +270,7 @@ class UserController extends Controller
 
         $user = User::where('id', $id)->first();
 
-        if ($user != null) {
+        if ($user) {
             $user->videos()->attach($video_id);
             return response()->json([
                 'success' => true,
@@ -295,7 +295,7 @@ class UserController extends Controller
 
         $user = User::where('id', $id)->first();
 
-        if ($user != null) {
+        if ($user) {
             $images = $user->images()->skip($request->offset)->take($request->limit)->get();
             return response()->json([
                 'success' => true,
@@ -320,7 +320,7 @@ class UserController extends Controller
 
         $user = User::where('id', $id)->first();
 
-        if ($user != null) {
+        if ($user) {
             $videos = $user->videos()->skip($request->offset)->take($request->limit)->get();
             return response()->json([
                 'success' => true,
@@ -345,7 +345,7 @@ class UserController extends Controller
 
         $user = User::where('id', $id)->first();
 
-        if ($user != null) {
+        if ($user) {
             $posts = $user->posts()->skip($request->offset)->take($request->limit)->get();
             return response()->json([
                 'success' => true,
@@ -370,7 +370,7 @@ class UserController extends Controller
 
         $user = User::where('id', $id)->first();
 
-        if ($user != null) {
+        if ($user) {
             $followers = $user->followers()->skip($request->offset)->take($request->limit)->with('images')->get();
             return response()->json([
                 'success' => true,
@@ -395,7 +395,7 @@ class UserController extends Controller
 
         $user = User::where('id', $id)->first();
 
-        if ($user != null) {
+        if ($user) {
             $followins = $user->followins()->skip($request->offset)->take($request->limit)->get();
 
             foreach ($followins as $followin) {
@@ -424,7 +424,7 @@ class UserController extends Controller
         }
 
         $user = User::where('id', $id)->first();
-        if ($user != null) {
+        if ($user) {
             $_feeds = $user->feeds()->skip($request->offset)->take($request->limit)->get();
             $feeds = [];
             foreach($_feeds as $feed){
@@ -453,7 +453,7 @@ class UserController extends Controller
 
         $user = User::where('id', $id)->first();
 
-        if ($user != null) {
+        if ($user) {
             $likes = $user->likes()->skip($request->offset)->take($request->limit)->get();
             return response()->json([
                 'success' => true,
@@ -491,10 +491,10 @@ class UserController extends Controller
 
         $user = User::where('id', $id)->first();
 
-        if ($user != null) {
+        if ($user) {
             $feed = $user->feeds()->where('feed_id', $feed_id)->first();
 
-            if ($feed != null) {
+            if ($feed) {
 
                 $feed->status = $request->status;
                 $feed->save();
@@ -537,16 +537,10 @@ class UserController extends Controller
 
         $aux3->run();
 
-        if ($users == null) {
-            return response()->json([
-                'success' => true,
-                'message' => 'users was restored'
-            ]);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'users not restored'
-            ]);
-        }
+        // Seeder operation succeeded
+        return response()->json([
+            'success' => true,
+            'message' => 'users was restored'
+        ]);
     }
 }

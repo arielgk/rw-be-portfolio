@@ -52,10 +52,8 @@ const Posts = () => {
 
 
     useEffect(() => {
-        console.log(count)
-        console.log(selectedIds.length)
         if (count == selectedIds.length) {
-            console.log("done");
+            // Processing complete
         }
     }, [count])
 
@@ -97,17 +95,14 @@ const Posts = () => {
             .then((response) => response.json())
             .then((result) => {
                 if (result.success) {
-                    console.log("success")
-
+                    // Success handled
                 } else {
-                    location.href = "uniwebview://action?type=error?message=" + error;
-                    console.log("error", error)
+                    let ef = "uniwebview://action?type=error?message=" + error;
                 }
 
             })
             .catch((error) => {
-                location.href = "uniwebview://action?type=error?message=" + error;
-                console.log("error", error)
+                let ef = "uniwebview://action?type=error?message=" + error;
             });
 
     }
@@ -139,7 +134,6 @@ const Posts = () => {
             })
             .catch((error) => {
                     location.href = "uniwebview://action?type=error?message=" + error;
-                    console.log("error", error)
                 }
             );
     }, []);

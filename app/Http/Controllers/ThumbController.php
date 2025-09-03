@@ -52,7 +52,7 @@ class ThumbController extends Controller
 
         $thumbs = Thumb::all();
 
-        if ($thumbs == null) {
+        if ($thumbs->isEmpty()) {
             return response()->json([
                 'success' => false,
                 'thumb' => 'thumb not available'
@@ -77,7 +77,7 @@ class ThumbController extends Controller
 
         $thumb = Thumb::where('id', $id)->first();
 
-        if ($thumb != null) {
+        if ($thumb) {
             return response()->json([
                 'success' => true,
                 'thumb' => $thumb
@@ -100,9 +100,9 @@ class ThumbController extends Controller
             ]);
         }
 
-        $thumb = Thumb::destroy($id);
+        $deleted = Thumb::destroy($id);
 
-        if ($thumb == null) {
+        if ($deleted > 0) {
             return response()->json([
                 'success' => true,
                 'message' => 'thumb was destroyed'
@@ -126,7 +126,7 @@ class ThumbController extends Controller
 
         $thumb = Thumb::where('id', $id)->first();
 
-        if ($thumb != null) {
+        if ($thumb) {
             $thumb->posts()->attach($post_id);
             return response()->json([
                 'success' => true,
@@ -152,17 +152,11 @@ class ThumbController extends Controller
         $aux = new ThumbsTableSeeder;
         $thumbs = $aux->run();
 
-        if ($thumbs == null) {
-            return response()->json([
-                'success' => true,
-                'message' => 'thumbs was restored'
-            ]);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'thumbs not restored'
-            ]);
-        }
+        // Seeder operation succeeded
+        return response()->json([
+            'success' => true,
+            'message' => 'thumbs was restored'
+        ]);
     }
 
 }

@@ -51,7 +51,7 @@ class VideoController extends Controller
 
         $videos = Video::all();
 
-        if ($videos == null) {
+        if ($videos->isEmpty()) {
             return response()->json([
                 'success' => false,
                 'video' => 'video not available'
@@ -76,7 +76,7 @@ class VideoController extends Controller
         
         $video = Video::where('id', $id)->first();
 
-        if ($video != null) {
+        if ($video) {
             return response()->json([
                 'success' => true,
                 'video' => $video
@@ -99,9 +99,9 @@ class VideoController extends Controller
             ]);
         }
 
-        $video = Video::destroy($id);
+        $deleted = Video::destroy($id);
 
-        if ($video == null) {
+        if ($deleted > 0) {
             return response()->json([
                 'success' => true,
                 'message' => 'video was destroyed'
@@ -109,7 +109,7 @@ class VideoController extends Controller
         } else {
             return response()->json([
                 'success' => false,
-                'message' => 'video not available'
+                'message' => 'video not found or could not be deleted'
             ]);
         }
     }
@@ -125,7 +125,7 @@ class VideoController extends Controller
 
         $video = Video::where('id', $id)->first();
 
-        if ($video != null) {
+        if ($video) {
             $video->posts()->attach($post_id);
             return response()->json([
                 'success' => true,
@@ -150,7 +150,7 @@ class VideoController extends Controller
 
         $video = Video::where('id', $id)->first();
 
-        if ($video != null) {
+        if ($video) {
             $video->users()->attach($user_id);
             return response()->json([
                 'success' => true,
@@ -173,18 +173,12 @@ class VideoController extends Controller
             ]);
         }
 
-        $videos = Video::truncate();
+        Video::truncate();
 
-        if ($videos == null) {
-            return response()->json([
-                'success' => true,
-                'message' => 'videos was restored'
-            ]);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'videos not restored'
-            ]);
-        }
+        // Truncate operation succeeded
+        return response()->json([
+            'success' => true,
+            'message' => 'videos was restored'
+        ]);
     }
 }

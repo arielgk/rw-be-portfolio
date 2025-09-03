@@ -28,18 +28,14 @@ const Login = () => {
         })
             .then(res => res.json())
             .then((result) => {
-                console.log(result);
-
                 if (result.success) {
-                    console.log(result.token)
                     localStorage.setItem('token', result.token);
                     localStorage.setItem('username', user);
                     navigate('/');
-
                 }
             }).catch((error) => {
-            console.log(error);
-        });
+                // Handle error appropriately
+            });
 
     }
 

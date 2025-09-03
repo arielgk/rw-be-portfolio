@@ -70,7 +70,7 @@ class RelationController extends Controller
             $relations = Relation::all();
         }
 
-        if ($relations == null) {
+        if ($relations->isEmpty()) {
             return response()->json([
                 'success' => false,
                 'relation' => 'relation not available'
@@ -95,7 +95,7 @@ class RelationController extends Controller
 
         $relation = Relation::where('sender_id', $id)->first();
 
-        if ($relation != null) {
+        if ($relation) {
             return response()->json([
                 'success' => true,
                 'relation' => $relation
@@ -132,16 +132,16 @@ class RelationController extends Controller
         $_relation = Relation::where('sender_id', $request->sender_id)
                                     ->where('recipient_id', $request->recipient_id)
                                     ->first();
-        if ($_relation == null) {
+        if (!$_relation) {
             return response()->json([
                 'success' => true,
                 'message' => 'relation was destroyed'
             ]);
         }
 
-        $relation = Relation::destroy($_relation->id);
+        $deleted = Relation::destroy($_relation->id);
 
-        if ($relation == null) {
+        if ($deleted > 0) {
             return response()->json([
                 'success' => true,
                 'message' => 'relation was destroyed'
@@ -163,9 +163,9 @@ class RelationController extends Controller
             ]);
         }
 
-        $relation = Relation::destroy($id);
+        $deleted = Relation::destroy($id);
 
-        if ($relation == null) {
+        if ($deleted > 0) {
             return response()->json([
                 'success' => true,
                 'message' => 'relation was destroyed'
@@ -200,7 +200,7 @@ class RelationController extends Controller
 
         $relation = Relation::where('id', $id)->first();
 
-        if ($relation != null) {
+        if ($relation) {
 
             $relation->status = $request->status;
             $relation->save();
@@ -223,7 +223,7 @@ class RelationController extends Controller
 
         $relation = Relation::where("sender_id", Auth::user()->id)->where('recipient_id', $recipientId)->first();
 
-        if ($relation != null) {
+        if ($relation) {
             return response()->json([
                 'success' => true,
                 'relation' => $relation
@@ -248,17 +248,11 @@ class RelationController extends Controller
         $aux = new RelationsTableSeeder;
         $relations = $aux->run();
 
-        if ($relations == null) {
-            return response()->json([
-                'success' => true,
-                'message' => 'relations was restored'
-            ]);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'relations not restored'
-            ]);
-        }
+        // Seeder operation succeeded
+        return response()->json([
+            'success' => true,
+            'message' => 'relations was restored'
+        ]);
     }
 
 }

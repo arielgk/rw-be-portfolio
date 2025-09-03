@@ -1,4 +1,4 @@
-import React, {useDebugValue, useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import SelectUsers from './SelectUsers';
 import ProfilePicture from './ProfilePicture';
 import * as config from '../config';
@@ -11,7 +11,6 @@ import BackArrow from '../BackArrow.svg';
 // import Arrow from './Arrow';
 function useStateWithLabel(initialValue, name) {
     const [value, setValue] = useState(initialValue);
-    useDebugValue(`${name}: ${value}`);
     return [value, setValue];
 }
 
@@ -26,7 +25,6 @@ const Messages = () => {
     const chatContainer = useRef(null);
     const containerRef = useRef(null);
     const handleSubmit = () => {
-        console.log("selectedUser", selectedUser)
         setReceiver(selectedUser)
     }
 
@@ -69,9 +67,7 @@ const Messages = () => {
     }
 
     const onChangeHandler = (event) => {
-
         const val = event.target.value;
-        console.log("val", val)
         setShowSendButton(val != '')
     }
 
@@ -99,7 +95,6 @@ const Messages = () => {
 
             })
             .catch((error) => {
-                    console.log("error", error)
                     location.href = "uniwebview://action?key=error&message=" + error;
 
                 }
@@ -145,7 +140,6 @@ const Messages = () => {
                 }
             )
             .catch((error) => {
-                    console.log("error", error)
                     location.href = "uniwebview://action?key=error&message=" + error;
 
                 }
@@ -170,7 +164,6 @@ const Messages = () => {
     }, []);
 
     const processBackButtonClick = () => {
-        console.log("back")
         location.href = "uniwebview://action?key=back";
     }
     const getUser = (userId, setCallback) => {
@@ -193,7 +186,6 @@ const Messages = () => {
             })
             .catch((error) => {
                     location.href = "uniwebview://action?type=error?message=" + error;
-                    console.log("error", error)
                 }
             );
     }
