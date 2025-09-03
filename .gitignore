@@ -33,3 +33,4 @@ concatenate_files.sh
 concatenated_files.txt
 
 to_fix.txt
+.env.example
